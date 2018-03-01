@@ -14,9 +14,15 @@ class ProductsController < ApplicationController
   def create
     @product = current_user.products.build(product_params)
     authorize @product
-    @product.save
+    # @product.save
 
-    redirect_to root_path
+    # redirect_to root_path
+
+    if @product.save
+        redirect_to root_path
+    else
+       render new_product_path
+    end
   end
 
   def edit
@@ -40,7 +46,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:description, :name, :price, :category, :photo)
+    params.require(:product).permit(:description, :name, :price, :category, :photo, :photo_cache)
   end
 
   def find_product
